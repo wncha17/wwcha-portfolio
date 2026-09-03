@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Project } from "../entities/projects/model/types";
+import type { Project } from "../entities/projects/model/project";
 import { getProjects } from "../entities/projects/api/getProjects";
 
 export default function Portfolio() {

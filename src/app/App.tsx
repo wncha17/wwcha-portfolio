@@ -1,8 +1,8 @@
 import { Link, Route, Routes } from "react-router-dom"
 import styles from './App.module.css'
-import Portfolio from "../pages/Portfolio"
 import Blog from "../pages/Blog"
 import Algorithm from "../pages/Algorithm"
+import About from "../pages/About/About"
 
 function App() {
 
@@ -22,7 +22,8 @@ function App() {
       </header>
 
       <Routes>
-        <Route path='/' element={<Portfolio />}/>
+        {/* <Route path='/' element={<Portfolio />}/> */}
+        <Route path='' element={<About/>}/>
         <Route path='/blog' element={<Blog />}/>
         <Route path='/algorithm' element={<Algorithm />}/>
       </Routes>

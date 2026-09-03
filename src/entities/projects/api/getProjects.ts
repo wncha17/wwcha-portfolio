@@ -1,5 +1,5 @@
 import { supabase } from "../../../shared/api/supabase";
-import type { Project } from "../model/types";
+import type { Project } from "../model/project";
 
 export async function getProjects(): Promise<Project[]> {
     const { data, error } = await supabase
