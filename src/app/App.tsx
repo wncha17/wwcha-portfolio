@@ -1,8 +1,9 @@
 import { Link, Route, Routes } from "react-router-dom"
 import styles from './App.module.css'
-import Blog from "../pages/Blog"
-import Algorithm from "../pages/Algorithm"
 import About from "../pages/About/About"
+import Skills from "../pages/Skills/Skills"
+import Projects from "../pages/Projects/Projects"
+import Algorithm from "../pages/Algorithm"
 
 function App() {
 
@@ -12,8 +13,8 @@ function App() {
         <h2>wwcha's portfolio</h2>
         <nav className={styles.navRight}>
           <ul className={styles.menus}>
-            <li><Link to='/' className={styles.menuItem}>Portfolio</Link></li>
-            <li><Link to='/blog' className={styles.menuItem}>Blog</Link></li>
+            <li><Link to='/' className={styles.menuItem}>Home</Link></li>
+            <li><Link to='/projects' className={styles.menuItem}>Projects</Link></li>
             <li><Link to='/algorithm' className={styles.menuItem}>Algorithm</Link></li>
           </ul>
         </nav>
@@ -22,9 +23,16 @@ function App() {
       </header>
 
       <Routes>
-        {/* <Route path='/' element={<Portfolio />}/> */}
-        <Route path='' element={<About/>}/>
-        <Route path='/blog' element={<Blog />}/>
+        <Route
+          path='/'
+          element={
+            <>
+              <About/>
+              <Skills />
+            </>
+          }
+        />
+        <Route path='/projects' element={<Projects />}/>
         <Route path='/algorithm' element={<Algorithm />}/>
       </Routes>
     </>

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Skill1 } from "../../entities/projects/model/Skills/skill1";
+import type { Skill1, SkillItem } from "../../entities/projects/model/Skills/skill1";
 import { getSkill1 } from "../../entities/projects/api/Skills/getSkill1";
 import type { Skill2 } from "../../entities/projects/model/Skills/skill2";
 import { getSkill2 } from "../../entities/projects/api/Skills/getSkill2";
@@ -12,28 +12,24 @@ import styles from "./Skills.module.css"
 export default function Skills() {
 
     // 1. Language 카드 데이터
-
-    // 2. FrontEnd 카드 데이터
-
-    // 3. BackEnd 카드 데이터
-
-    // 4. DevOps 카드 데이터
-
     const { data: skill1, isLoading: isLoading1, error: error1 } = useQuery<Skill1> ({
         queryKey: ['language'],
         queryFn: getSkill1
     });
 
+    // 2. FrontEnd 카드 데이터
     const { data: skill2, isLoading: isLoading2, error: error2 } = useQuery<Skill2> ({
         queryKey: ['frontEnd'],
         queryFn: getSkill2
     });
 
+    // 3. BackEnd 카드 데이터
     const { data: skill3, isLoading: isLoading3, error: error3 } = useQuery<Skill3> ({
         queryKey: ['backEnd'],
         queryFn: getSkill3
     });
 
+    // 4. DevOps 카드 데이터
     const { data: skill4, isLoading: isLoading4, error: error4 } = useQuery<Skill4> ({
         queryKey: ['devOps'],
         queryFn: getSkill4
@@ -51,41 +47,54 @@ export default function Skills() {
     if (!skill1 || !skill2 || !skill3 || !skill4)
         return <p>데이터가 없습니다.</p>
     
+    // JSON 데이터 안전하게 파싱하는 도우미 함수
+    const parseSkillItems = (content: any): SkillItem[] => {
+        if (!content) return [];
+        if (typeof content === 'string') {
+            try {
+                return JSON.parse(content);
+            } catch {
+                // 기존 text 형태일 경우의 예외 처리
+                return content.split(',').map(item => ({
+                    name: item.trim(),
+                    description: `${item.trim()} 기술 활용 경험`
+                }));
+            }
+        }
+        return content;
+    }
 
-    // return
-    // 1. 헤더
-    // 2. Language 영역 카드
-    // 3. FrontEnd 영역 카드
-    // 4. BackEnd 영역 카드
-    // 5. DevOps 영역 카드
+    const skillCategories = [
+        { data: skill1, items: parseSkillItems(skill1.content) },
+        { data: skill2, items: parseSkillItems(skill2.content) },
+        { data: skill3, items: parseSkillItems(skill3.content) },
+        { data: skill4, items: parseSkillItems(skill4.content) },
+    ];
 
     return (
         <section className={styles.section}>
             {/* 헤더 */}
-            <div className={styles.title}>ABOUT ME</div>
+            <div className={styles.title}>Skills</div>
 
-            {/* 1. Language 영역 카드 */}
-            <div className={styles.skill1}>
-                <h3 className={styles.skill1Title}>{skill1.title}</h3>
-                <p className={styles.skill1Content}>{skill1.content}</p>
-            </div>
-
-            {/* 2. FrontEnd 영역 카드 */}
-            <div className={styles.skill2}>
-                <h3 className={styles.skill2Title}>{skill2.title}</h3>
-                <p className={styles.skill2Content}>{skill2.content}</p>
-            </div>
-
-            {/* 3. BackEnd 영역 카드 */}
-            <div className={styles.skill3}>
-                <h3 className={styles.skill3Title}>{skill3.title}</h3>
-                <p className={styles.skill3Content}>{skill3.content}</p>
-            </div>
-
-            {/* 4. DevOps 영역 카드 */}
-            <div className={styles.skill4}>
-                <h3 className={styles.skill4Title}>{skill4.title}</h3>
-                <p className={styles.skill4Content}>{skill4.content}</p>
+            {/* 기술 카테고리 카드 목록 */}
+            <div className={styles.cardList}>
+                {skillCategories.map((cat, idx) => (
+                    <div key={idx} className={styles.card}>
+                        <h3 className={styles.cardTitle}>{cat.data.title}</h3>
+                        <div className={styles.chipGroup}>
+                            {cat.items.map((skill, itemIdx) => (
+                                <div key={itemIdx} className={styles.chipWrapper}>
+                                    <button className={styles.chip}>{skill.name}</button>
+                                    
+                                    {/* 호버 시 나타나는 툴팁 */}
+                                    <div className={styles.tooltip}>
+                                        {skill.description}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
             </div>
 
         </section>
