@@ -1,0 +1,74 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 64px 24px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.empty {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* 문제 카드 목록 */
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+}
+
+/* 왼쪽: 제목 + 난이도 */
+.itemInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.itemTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.itemLevel {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* 오른쪽: 문제와 풀이 버튼 */
+.linkButton {
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    background: #6b7280;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    white-space: nowrap;
+    transition: background-color 0.15s ease;
+}
+
+.linkButton:hover {
+    background: #7c3aed;
+}

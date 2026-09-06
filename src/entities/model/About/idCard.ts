@@ -1,8 +1,3 @@
-export interface LinkItem {
-    label: string
-    url: string
-}
-
 export interface IdCard {
     profile: string
     name: string
@@ -10,5 +5,4 @@ export interface IdCard {
     home: string
     contact: string
     education: string
-    bio: LinkItem[]
 }

@@ -1,4 +1,4 @@
-import { supabase } from "../../../../shared/api/supabase";
+import { supabase } from "../../../shared/api/supabase";
 import type { Skill2 } from "../../model/Skills/skill2";
 
 export async function getSkill2(): Promise<Skill2> {

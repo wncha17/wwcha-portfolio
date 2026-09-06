@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Skill1, SkillItem } from "../../entities/projects/model/Skills/skill1";
-import { getSkill1 } from "../../entities/projects/api/Skills/getSkill1";
-import type { Skill2 } from "../../entities/projects/model/Skills/skill2";
-import { getSkill2 } from "../../entities/projects/api/Skills/getSkill2";
-import type { Skill3 } from "../../entities/projects/model/Skills/skill3";
-import { getSkill3 } from "../../entities/projects/api/Skills/getSkill3";
-import type { Skill4 } from "../../entities/projects/model/Skills/skill4";
-import { getSkill4 } from "../../entities/projects/api/Skills/getSkill4";
+import type { Skill1, SkillItem } from "../../entities/model/Skills/skill1";
+import { getSkill1 } from "../../entities/api/Skills/getSkill1";
+import type { Skill2 } from "../../entities/model/Skills/skill2";
+import { getSkill2 } from "../../entities/api/Skills/getSkill2";
+import type { Skill3 } from "../../entities/model/Skills/skill3";
+import { getSkill3 } from "../../entities/api/Skills/getSkill3";
+import type { Skill4 } from "../../entities/model/Skills/skill4";
+import { getSkill4 } from "../../entities/api/Skills/getSkill4";
 import styles from "./Skills.module.css"
 
 export default function Skills() {

@@ -2,8 +2,10 @@ import { Link, Route, Routes } from "react-router-dom"
 import styles from './App.module.css'
 import About from "../pages/About/About"
 import Skills from "../pages/Skills/Skills"
+import Archive from "../pages/Archive/Archive"
 import Projects from "../pages/Projects/Projects"
-import Algorithm from "../pages/Algorithm"
+import Algorithm from "../pages/Algorithm/Algorithm"
+import Problems from "../pages/Algorithm/Problems/Problems"
 
 function App() {
 
@@ -29,11 +31,13 @@ function App() {
             <>
               <About/>
               <Skills />
+              <Archive />
             </>
           }
         />
         <Route path='/projects' element={<Projects />}/>
         <Route path='/algorithm' element={<Algorithm />}/>
+        <Route path="/problems" element={<Problems />} />
       </Routes>
     </>
   )

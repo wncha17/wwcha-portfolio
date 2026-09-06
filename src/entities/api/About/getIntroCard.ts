@@ -1,4 +1,4 @@
-import { supabase } from "../../../../shared/api/supabase";
+import { supabase } from "../../../shared/api/supabase";
 import type { IntroCard } from "../../model/About/introCard";
 
 export async function getIntroCard(): Promise<IntroCard> {

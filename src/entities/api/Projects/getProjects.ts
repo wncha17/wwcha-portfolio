@@ -1,4 +1,4 @@
-import { supabase } from "../../../../shared/api/supabase";
+import { supabase } from "../../../shared/api/supabase";
 import type { Project } from "../../model/Projects/project";
 
 export async function getProjects(): Promise<Project[]> {

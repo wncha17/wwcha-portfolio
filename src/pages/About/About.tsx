@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import type { IdCard } from "../../entities/projects/model/About/idCard";
-import type { IntroCard } from "../../entities/projects/model/About/introCard";
-import type { ExpCard } from "../../entities/projects/model/About/expCard";
-import { getIdCard } from "../../entities/projects/api/About/getIdCard";
-import { getIntroCard } from "../../entities/projects/api/About/getIntroCard";
-import { getExpCards } from "../../entities/projects/api/About/getExpCards";
+import type { IdCard } from "../../entities/model/About/idCard";
+import type { IntroCard } from "../../entities/model/About/introCard";
+import type { ExpCard } from "../../entities/model/About/expCard";
+import { getIdCard } from "../../entities/api/About/getIdCard";
+import { getIntroCard } from "../../entities/api/About/getIntroCard";
+import { getExpCards } from "../../entities/api/About/getExpCards";
 import styles from "./About.module.css"
 
 export default function About() {
@@ -79,20 +79,7 @@ export default function About() {
                         <span className={styles.label}>학력</span>
                         <span className={styles.value}>{idCard.education}</span>
                     </div>
-
-                    <div className={styles.infoRow}>
-                        <span className={styles.label}>링크</span>
-                        <div className={styles.linkGroup}>
-                            {idCard.bio?.map((link, index) => (
-                                <a
-                                    key={index}
-                                    href={link.url}
-                                >
-                                    {link.label}
-                                </a>
-                            ))}
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
 
@@ -106,6 +93,13 @@ export default function About() {
             <div className={styles.expGrid}>
                 {expCard?.map((exp) => (
                     <div key={exp.id} className={styles.expCard}>
+                        <div className={styles.expLogoWrapper}>
+                            <img
+                                src={exp.logo}
+                                alt={`${exp.title} 로고`}
+                                className={styles.expLogo}
+                            />
+                        </div>
                         <h4 className={styles.expTitle}>{exp.title}</h4>
                         <span className={styles.expPeriod}>{exp.period}</span>
                         <p className={styles.expDescription}>{exp.description}</p>

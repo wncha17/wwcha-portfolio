@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Project } from "../../entities/projects/model/Projects/project";
-import { getProjects } from "../../entities/projects/api/Projects/getProjects";
+import type { Project } from "../../entities/model/Projects/project";
+import { getProjects } from "../../entities/api/Projects/getProjects";
 import styles from "./Projects.module.css";
 import { useState } from "react";
 
@@ -10,6 +10,7 @@ type Filter = (typeof FILTERS)[number];
 export default function Projects() {
 
     const [filter, setFilter] = useState<Filter>("전체");
+    const [openIds, setOpenIds] = useState<Set<number>>(new Set());
 
     const { data: projects, isLoading, error } = useQuery<Project[]>({
         queryKey: ['projects'],
@@ -43,6 +44,18 @@ export default function Projects() {
             .map((line) => line.replace(/^[-•]\s*/, "").trim())
             .filter(Boolean);
     
+    const toggle = (id: number) => {
+        setOpenIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
+            } else {
+                next.add(id);
+            }
+            return next;
+        });
+    };
+
     return (
         <section className={styles.section}>
             {/* 헤더 */}
@@ -67,42 +80,59 @@ export default function Projects() {
                 {filteredProjects.map((project) => {
                     const skills = parseSkills(project.skills);
                     const summaryLines = parseSummary(project.summary)
+                    const isOpen = openIds.has(project.id);
 
                     return (
-                        <div key={project.id} className={styles.cardBody}>
-                            <h3 className={styles.cardTitle}>{project.title}</h3>
-                            <p className={styles.cardAbout}>{project.about}</p>
-
-                            {summaryLines.length > 0 && (
-                                <ul className={styles.summaryList}>
-                                    {summaryLines.map((line, idx) => (
-                                        <li key={idx}>{line}</li>
-                                    ))}
-                                </ul>
-                            )}
-                            
-                            {skills.length > 0 && (
-                                <div className={styles.skillGroup}>
-                                    {skills.map((skill) => (
-                                        <span key={skill} className={styles.skillChip}>
-                                            #{skill}
-                                        </span>
-                                    ))}
+                        <div key={project.id} className={styles.card}>
+                            <button
+                                type="button"
+                                className={styles.cardHeader}
+                                onClick={() => toggle(project.id)}
+                                aria-expanded={isOpen}
+                            >
+                                <div className={styles.cardHeaderText}>
+                                    <h3 className={styles.cardTitle}>{project.title}</h3>
+                                    <p className={styles.cardAbout}>{project.about}</p>
+                                </div>
+                                <span className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ""}`}>
+                                    ⌄
+                                </span>
+                            </button>
+ 
+                            {isOpen && (
+                                <div className={styles.cardBody}>
+                                    {summaryLines.length > 0 && (
+                                        <ul className={styles.summaryList}>
+                                            {summaryLines.map((line, idx) => (
+                                                <li key={idx}>{line}</li>
+                                            ))}
+                                        </ul>
+                                    )}
+ 
+                                    {skills.length > 0 && (
+                                        <div className={styles.skillGroup}>
+                                            {skills.map((skill) => (
+                                                <span key={skill} className={styles.skillChip}>
+                                                    #{skill}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+ 
+                                    <div className={styles.metaRow}>
+                                        {project.links ? (
+                                            <a href={project.links}
+                                               className={styles.metaLink}
+                                            >
+                                                첨부파일
+                                            </a>
+                                        ) : (
+                                            <span />
+                                        )}
+                                        <span className={styles.metaValue}>{formatPeriod(project.date)}</span>
+                                    </div>
                                 </div>
                             )}
-
-                            <div className={styles.metaRow}>
-                                {project.links ? (
-                                    <a href={project.links}
-                                       className={styles.metaLink}
-                                    >
-                                        {project.links} (link)
-                                    </a>
-                                ) : (
-                                    <span />
-                                )}
-                                <span className={styles.metaValue}>{formatPeriod(project.date)}</span>
-                            </div>
                         </div>
                     )
                 })}
