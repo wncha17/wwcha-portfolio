@@ -1,40 +1,18 @@
-import { Link, Route, Routes } from "react-router-dom"
-import styles from './App.module.css'
-import About from "../pages/About/About"
-import Skills from "../pages/Skills/Skills"
-import Archive from "../pages/Archive/Archive"
-import Projects from "../pages/Projects/Projects"
-import Algorithm from "../pages/Algorithm/Algorithm"
-import Problems from "../pages/Algorithm/Problems/Problems"
+import { Route, Routes } from "react-router-dom"
+import { Header } from "../widgets/header"
+import Home from "../pages/HomePage/ui/Home"
+import Projects from "../pages/ProjectPage/ui/Project"
+import Algorithm from "../widgets/algorithm-list/ui/AlgorithmList"
+import Problems from "../widgets/problems-list/ui/ProblemsList"
 
 function App() {
 
   return (
     <>
-      <header className={styles.header}>
-        <h2>wwcha's portfolio</h2>
-        <nav className={styles.navRight}>
-          <ul className={styles.menus}>
-            <li><Link to='/' className={styles.menuItem}>Home</Link></li>
-            <li><Link to='/projects' className={styles.menuItem}>Projects</Link></li>
-            <li><Link to='/algorithm' className={styles.menuItem}>Algorithm</Link></li>
-          </ul>
-        </nav>
-
-        <div className={styles.divider} />
-      </header>
+      <Header />
 
       <Routes>
-        <Route
-          path='/'
-          element={
-            <>
-              <About/>
-              <Skills />
-              <Archive />
-            </>
-          }
-        />
+        <Route path='/' element={<Home />}/>
         <Route path='/projects' element={<Projects />}/>
         <Route path='/algorithm' element={<Algorithm />}/>
         <Route path="/problems" element={<Problems />} />
