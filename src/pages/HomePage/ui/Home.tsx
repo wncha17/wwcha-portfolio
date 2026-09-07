@@ -1,4 +1,4 @@
-import { AboutList } from "../../../widgets/about-section";
+import { AboutList } from "../../../widgets/about-list";
 import { ArchiveList } from "../../../widgets/archive-list";
 import { SkillsList } from "../../../widgets/skills-list";
 

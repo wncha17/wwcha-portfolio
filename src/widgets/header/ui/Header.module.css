@@ -5,6 +5,8 @@
   align-items: center;
   padding: 1rem 2rem;
   border-bottom: 1px solid #e5e7eb;
+  /* space-between: 자식 요소들을 양 끝에 붙이고 그 사이에 균등한 간격을 줌.
+     지금 header의 직접 자식은 h2, nav, div.divider 이렇게 3개 */ 
 }
 
 /* 우측 메뉴 전체 레이아웃 (네비게이션 + 구분선 + 토글) */
@@ -36,12 +38,4 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
-}
-
-/* 구분선 (|) */
-.divider {
-  width: 1px;
-  height: 20px;
-  background-color: #e5e7eb;
-  margin: 0 4px;
 }

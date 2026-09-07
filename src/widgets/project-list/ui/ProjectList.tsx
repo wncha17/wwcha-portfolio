@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import type { Project } from "../../../entities/projectList";
 import { getProjects } from "../../../entities/projectList";
 import styles from "./ProjectList.module.css";
-import { useState } from "react";
 
 const FILTERS = ["전체", "학교", "교육", "실무"] as const;
 type Filter = (typeof FILTERS)[number];
@@ -10,7 +10,8 @@ type Filter = (typeof FILTERS)[number];
 export default function ProjectList() {
 
     const [filter, setFilter] = useState<Filter>("전체");
-    const [openIds, setOpenIds] = useState<Set<number>>(new Set());
+    // 펼쳐진 카드들의 id 목록
+    const [openIds, setOpenIds] = useState<number[]>([]);
 
     const { data: projects, isLoading, error } = useQuery<Project[]>({
         queryKey: ['projects'],
@@ -26,14 +27,19 @@ export default function ProjectList() {
     if (!projects || projects.length === 0)
         return <p>데이터가 없습니다.</p>
     
+    // '전체'일 때는 필터링 하지 않고 원본 배열 그래도 사용
+    // 다른 필터일 때만 project.category와 비교
     const filteredProjects = 
         filter === "전체" ? projects : projects.filter((p) => p.category === filter);
 
+    
+    // !!! 변경 요망 !!!
     const formatPeriod = (date: Project["date"]) => {
         const d = typeof date === "string" ? new Date(date) : date;
         if (isNaN(d.getTime())) return String(date);
         return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}`;
     };
+
 
     const parseSkills = (skills: string) =>
         skills.split(",").map((s) => s.trim()).filter(Boolean);
@@ -45,15 +51,20 @@ export default function ProjectList() {
             .filter(Boolean);
     
     const toggle = (id: number) => {
-        setOpenIds((prev) => {
-            const next = new Set(prev);
-            if (next.has(id)) {
-                next.delete(id);
-            } else {
-                next.add(id);
-            }
-            return next;
-        });
+        // 지금 이 카드가 펼쳐져 있는 상태인지 확인
+        // (openIds 배열 안에 이 id가 들어있으면 true)
+        const isAlreadyOpen = openIds.includes(id);
+
+        // * React는 '상태가 바뀌었는지'를 판단할 때, 배열 안의 내용물이 아니라 배열 자체가 새로운 것인지 본다.
+        if (isAlreadyOpen) {
+            // 열려있으면 -> 배열에서 이 id만 빼고 나머지로 새 배열을 만들기 (= 닫기)
+            const newOpenIds = openIds.filter((openId) => openId !== id);
+            setOpenIds(newOpenIds);
+        } else {
+            // 안 열려있으면 -> 기존 배열 뒤에 이 id를 추가한 새 배열을 만들기 (= 열기)
+            const newOpenIds = [...openIds, id];
+            setOpenIds(newOpenIds);
+        }
     };
 
     return (
@@ -80,7 +91,7 @@ export default function ProjectList() {
                 {filteredProjects.map((project) => {
                     const skills = parseSkills(project.skills);
                     const summaryLines = parseSummary(project.summary)
-                    const isOpen = openIds.has(project.id);
+                    const isOpen = openIds.includes(project.id);
 
                     return (
                         <div key={project.id} className={styles.card}>
@@ -121,8 +132,11 @@ export default function ProjectList() {
  
                                     <div className={styles.metaRow}>
                                         {project.links ? (
-                                            <a href={project.links}
-                                               className={styles.metaLink}
+                                            <a
+                                                href={project.links}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className={styles.metaLink}
                                             >
                                                 첨부파일
                                             </a>

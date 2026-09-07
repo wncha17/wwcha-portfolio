@@ -3,7 +3,8 @@ export interface SkillItem {
     description: string
 }
 
-export interface Skill {
+export interface Skills {
+    id: number
     title: string
     content: SkillItem[] | string
 }

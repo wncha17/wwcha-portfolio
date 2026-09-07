@@ -7,30 +7,10 @@
     margin: 0 auto;
 }
 
-/* 헤더 */
-.header {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.eyebrow {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: #7c3aed;
-}
-
 .title {
     font-size: 28px;
     font-weight: 800;
     color: #111827;
-    margin: 0;
-}
-
-.subtitle {
-    font-size: 14px;
-    color: #6b7280;
     margin: 0;
 }
 

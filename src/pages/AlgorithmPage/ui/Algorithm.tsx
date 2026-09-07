@@ -1,5 +1,5 @@
 import { AlgorithmList } from "../../../widgets/algorithm-list";
 
-export default function Archive() {
+export default function Argorithm() {
     return <AlgorithmList />
 }

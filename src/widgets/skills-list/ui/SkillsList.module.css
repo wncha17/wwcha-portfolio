@@ -8,32 +8,11 @@
   gap: 12px;
 }
 
-/* 헤더 영역 */
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.categoryLabel {
-  font-size: 13px;
-  font-weight: 700;
-  color: #9333ea;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
 .title {
   font-size: 22px;
   font-weight: 800;
   color: #111827;
   margin: 0;
-}
-
-.description {
-  font-size: 13px;
-  color: #6b7280;
-  margin: 2px 0 0 0;
 }
 
 /* 카드 목록 세로 간격 축소 */

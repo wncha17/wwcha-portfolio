@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import type { IdCard } from "../../../entities/idCard";
-import type { IntroCard } from "../../../entities/introCard/model/introCard";
-import type { ExpCard } from "../../../entities/expCard/model/expCard";
 import { getIdCard } from "../../../entities/idCard";
-import { getIntroCard } from "../../../entities/introCard/api/getIntroCard";
+import type { IntroCard } from "../../../entities/introCard";
+import { getIntroCard } from "../../../entities/introCard";
+import type { ExpCard } from "../../../entities/expCard";
 import { getExpCards } from "../../../entities/expCard";
 import styles from "./AboutList.module.css"
 
@@ -28,6 +28,7 @@ export default function AboutList() {
     });
 
     // 아직 오는 중
+    // 셋 중 하나라도 로딩 중이면 전체를 '불러오는 중'으로 통일
     if (isLoading1 || isLoading2 || isLoading3)
         return <p>불러오는 중...</p>
     
@@ -42,7 +43,7 @@ export default function AboutList() {
     return (
         <section className={styles.section}>
             {/* 헤더 */}
-            <div className={styles.title}>ABOUT ME</div>
+            <h2 className={styles.title}>ABOUT ME</h2>
 
             {/* 1. 프로필 카드 */}
             <div className={styles.cardContainer}>

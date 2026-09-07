@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Skill, SkillItem } from "../../../entities/skillsList/model/skill";
-import { getSkills } from "../../../entities/skillsList/api/getSkill";
+import type { Skills, SkillItem } from "../../../entities/skillsList";
+import { getSkills } from "../../../entities/skillsList";
 import styles from "./SkillsList.module.css"
 
 export default function SkillsList() {
 
-    // 1. Language 카드 데이터
-    const { data: skills, isLoading, error } = useQuery<Skill[]> ({
+    // 1. Skills 영역 데이터
+    const { data: skills, isLoading, error } = useQuery<Skills[]> ({
         queryKey: ['skills'],
         queryFn: getSkills
     });
@@ -43,7 +43,7 @@ export default function SkillsList() {
     return (
         <section className={styles.section}>
             {/* 헤더 */}
-            <div className={styles.title}>Skills</div>
+            <h2 className={styles.title}>Skills</h2>
 
             {/* 기술 카테고리 카드 목록 */}
             <div className={styles.cardList}>
@@ -54,13 +54,13 @@ export default function SkillsList() {
                         <div key={category.title} className={styles.card}>
                             <h3 className={styles.cardTitle}>{category.title}</h3>
                             <div className={styles.chipGroup}>
-                                {items.map((skills, itemIdx) => (
+                                {items.map((item, itemIdx) => (
                                     <div key={itemIdx} className={styles.chipWrapper}>
-                                        <button className={styles.chip}>{skills.name}</button>
+                                        <button className={styles.chip}>{item.name}</button>
 
                                         {/* 호버 시 나타나는 툴팁 */}
                                         <div className={styles.tooltip}>
-                                            {skills.description}
+                                            {item.description}
                                         </div>
                                     </div>
                                 ))}

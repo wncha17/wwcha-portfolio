@@ -1,7 +1,7 @@
 import { supabase } from "../../../shared/api/supabase";
-import type { Skill } from "../model/skill";
+import type { Skills } from "../model/skills";
 
-export async function getSkills(): Promise<Skill[]> {
+export async function getSkills(): Promise<Skills[]> {
     const { data, error } = await supabase
         .from('skills')
         .select('id, title, content')

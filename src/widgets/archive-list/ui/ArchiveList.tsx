@@ -25,7 +25,13 @@ export default function ArchiveList() {
 
             <div className={styles.cardGrid}>
                 {archive.map((item) => (
-                    <a key={item.repo} href={item.link} className={styles.card}>
+                    <a
+                        key={item.repo}
+                        href={item.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={styles.card}
+                    >
                         <span className={styles.cardLabel}>{item.repo}</span>
 
                         <div className={styles.cardImgWrapper}>

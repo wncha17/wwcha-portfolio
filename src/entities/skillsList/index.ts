@@ -1,2 +1,2 @@
-export type { Skill } from './model/skill';
-export { getSkills } from './api/getSkill';
+export type { Skills, SkillItem } from './model/skills';
+export { getSkills } from './api/getSkills';
