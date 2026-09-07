@@ -66,6 +66,11 @@
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+
+    /* 자식 요소인 카드가 Grid Cell 전체 높이로 늘어나는 것을 방지 */
+    align-self: start;
+    height: fit-content;
+    /* ! 이렇게 설정해도 문제를 해결하지 못함 ! */
 }
 
 /* 클릭 영역 (제목 + about, 항상 보임) */
@@ -82,12 +87,6 @@
     text-align: left;
     font: inherit;
     color: inherit;
-}
-
-.cardHeaderText {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
 }
 
 .chevron {
@@ -193,9 +192,4 @@
     color: #374151;
     font-weight: 600;
     white-space: nowrap;
-}
-
-.empty {
-    font-size: 14px;
-    color: #9ca3af;
 }

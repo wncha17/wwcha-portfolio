@@ -1,3 +1,4 @@
+/* 레이아웃 전체 섹션 설정 */
 .section {
     display: flex;
     flex-direction: column;
@@ -20,19 +21,21 @@
     gap: 20px;
 }
 
+/* 태블릿 화면 반응형 (2열) */
 @media (max-width: 900px) {
     .cardGrid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
+/* 모바일 화면 반응형 (1열) */
 @media (max-width: 600px) {
     .cardGrid {
         grid-template-columns: 1fr;
     }
 }
 
-/* 카드 */
+/* 개별 알고리즘 카드 디자인 */
 .card {
     position: relative;
     display: flex;
@@ -136,6 +139,7 @@
     transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+/* 이동 버튼 호버 효과 */
 .cornerArrow:hover {
     background: #ede9fe;
     color: #7c3aed;

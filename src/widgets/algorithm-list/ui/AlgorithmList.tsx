@@ -1,29 +1,32 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import type { Algorithm } from "../../../entities/algorithm/model/algorithm";
-import { getAlgorithms } from "../../../entities/algorithm/api/getAlgorithms";
-import type { Problem } from "../../../entities/problem/model/problem";
-import { getProblems } from "../../../entities/problem/api/getProblems";
-import styles from "./AlgorithmList.module.css"
 import { useMemo } from "react";
+import type { Algorithm } from "../../../entities/algorithm";
+import { getAlgorithms } from "../../../entities/algorithm";
+import type { Problem } from "../../../entities/problem";
+import { getProblems } from "../../../entities/problem";
+import styles from "./AlgorithmList.module.css"
 
 const MAX_STARS = 5;
 const MAX_LEVEL = 5;
 
 export default function AlgorithmList() {
+    // 페이지 이동을 위한 React Router hook
     const navigate = useNavigate();
 
+    // 알고리즘 카테고리 목록 조회
     const { data: algorithms, isLoading, error } = useQuery<Algorithm[]>({
         queryKey: ['algorithms'],
         queryFn: getAlgorithms
     });
 
+    // 전체 문제 목록 조회
     const { data: problems, isLoading: isProblemsLoading, error: problemsError } = useQuery<Problem[]>({
         queryKey: ['problems'],
         queryFn: getProblems
     });
 
-    // algorithm.title과 일치하는 problem.category 개수를 세어 Map으로 만들어둡니다.
+    // algorithm.title과 일치하는 problem.category 개수를 세어 Map으로 만들어두기
     const problemCountByCategory = useMemo(() => {
         const map = new Map<string, number>();
         (problems ?? []).forEach((p) => {
@@ -49,21 +52,23 @@ export default function AlgorithmList() {
             {/* 카드 그리드 (3열) */}
             <div className={styles.cardGrid}>
                 {algorithms.map((algo) => {
+                    // 데이터 가공 및 수치 정규화
                     const filledStars = Math.max(0, Math.min(MAX_STARS, algo.freq));
                     const levelPercent = Math.max(0, Math.min(100, (algo.level / MAX_LEVEL) * 100));
-
+                    
+                    // Map에서 현재 알고리즘 타이틀에 해당하는 문제 개수 추출
                     const problemCount = problemCountByCategory.get(algo.title) ?? 0;
 
                     return (
                         <div key={algo.id} className={styles.card}>
+                            {/* 알고리즘 이름 및 간단한 설명 */}
                             <h3 className={styles.cardTitle}>{algo.title}</h3>
- 
                             <p className={styles.description}>{algo.description}</p>
  
                             {/* 출제빈도: 별 5개 */}
                             <div className={styles.statRow}>
                                 <span className={styles.statLabel}>출제빈도</span>
-                                <div className={styles.stars} aria-label={`${filledStars} / ${MAX_STARS}`}>
+                                <div className={styles.stars}>
                                     {Array.from({ length: MAX_STARS }).map((_, idx) => (
                                         <svg
                                             key={idx}
@@ -79,13 +84,7 @@ export default function AlgorithmList() {
                             {/* 난이도: 가로 게이지 바 */}
                             <div className={styles.statRow}>
                                 <span className={styles.statLabel}>난이도</span>
-                                <div
-                                    className={styles.levelBar}
-                                    role="meter"
-                                    aria-valuenow={algo.level}
-                                    aria-valuemin={0}
-                                    aria-valuemax={MAX_LEVEL}
-                                >
+                                <div className={styles.levelBar}>
                                     <div
                                         className={styles.levelBarFill}
                                         style={{ width: `${levelPercent}%` }}
@@ -99,11 +98,11 @@ export default function AlgorithmList() {
                                 <span className={styles.count}>{problemCount}</span>
                             </div>
  
+                            {/* 문제 목록 페이지로 이동하는 버튼 */}
                             <button
                                 type="button"
                                 className={styles.cornerArrow}
                                 onClick={() => navigate(`/problems?category=${encodeURIComponent(algo.title)}`)}
-                                aria-label={`${algo.title} 문제 목록 보기`}
                             >
                                 <svg viewBox="0 0 24 24">
                                     <path

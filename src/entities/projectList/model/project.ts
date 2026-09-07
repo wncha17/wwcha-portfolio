@@ -6,5 +6,5 @@ export interface Project {
     summary: string
     skills: string
     links: string
-    date: Date | string
+    date: string
 }

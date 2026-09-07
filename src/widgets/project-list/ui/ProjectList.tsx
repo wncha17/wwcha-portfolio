@@ -4,15 +4,19 @@ import type { Project } from "../../../entities/projectList";
 import { getProjects } from "../../../entities/projectList";
 import styles from "./ProjectList.module.css";
 
+// 필터 옵션 상수화 및 타입 정의
+// 'as const'를 사용하여 배열을 읽기 전용 튜플로 고정
 const FILTERS = ["전체", "학교", "교육", "실무"] as const;
 type Filter = (typeof FILTERS)[number];
 
 export default function ProjectList() {
 
+    // 현재 선택된 카테고리 필터 상태
     const [filter, setFilter] = useState<Filter>("전체");
-    // 펼쳐진 카드들의 id 목록
+    // 펼쳐진 카드들의 id를 저장하는 배열 상태
     const [openIds, setOpenIds] = useState<number[]>([]);
 
+    // 서버 데이터 패칭 (React Query)
     const { data: projects, isLoading, error } = useQuery<Project[]>({
         queryKey: ['projects'],
         queryFn: getProjects
@@ -27,19 +31,10 @@ export default function ProjectList() {
     if (!projects || projects.length === 0)
         return <p>데이터가 없습니다.</p>
     
-    // '전체'일 때는 필터링 하지 않고 원본 배열 그래도 사용
+    // '전체'일 때는 필터링 하지 않고 원본 배열 그대로 사용
     // 다른 필터일 때만 project.category와 비교
     const filteredProjects = 
         filter === "전체" ? projects : projects.filter((p) => p.category === filter);
-
-    
-    // !!! 변경 요망 !!!
-    const formatPeriod = (date: Project["date"]) => {
-        const d = typeof date === "string" ? new Date(date) : date;
-        if (isNaN(d.getTime())) return String(date);
-        return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}`;
-    };
-
 
     const parseSkills = (skills: string) =>
         skills.split(",").map((s) => s.trim()).filter(Boolean);
@@ -61,7 +56,7 @@ export default function ProjectList() {
             const newOpenIds = openIds.filter((openId) => openId !== id);
             setOpenIds(newOpenIds);
         } else {
-            // 안 열려있으면 -> 기존 배열 뒤에 이 id를 추가한 새 배열을 만들기 (= 열기)
+            // 닫혀있으면 -> 기존 배열 뒤에 이 id를 추가한 새 배열을 만들기 (= 열기)
             const newOpenIds = [...openIds, id];
             setOpenIds(newOpenIds);
         }
@@ -78,6 +73,7 @@ export default function ProjectList() {
                     <button
                         key={f}
                         type="button"
+                        // 선택된 필터 항목에 동적으로 액티브 CSS 클래스 부여
                         className={`${styles.filterBtn} ${filter === f ? styles.filterBtnActive : ""}`}                    
                         onClick={() => setFilter(f)}
                     >
@@ -91,25 +87,28 @@ export default function ProjectList() {
                 {filteredProjects.map((project) => {
                     const skills = parseSkills(project.skills);
                     const summaryLines = parseSummary(project.summary)
+                    // 현재 카드가 열려있는지 여부를 불리언 값으로 판단
                     const isOpen = openIds.includes(project.id);
 
                     return (
                         <div key={project.id} className={styles.card}>
+                            {/* 카드 헤더 (클릭 시 아코디언 토글 실행) */}
                             <button
                                 type="button"
                                 className={styles.cardHeader}
                                 onClick={() => toggle(project.id)}
-                                aria-expanded={isOpen}
                             >
                                 <div className={styles.cardHeaderText}>
                                     <h3 className={styles.cardTitle}>{project.title}</h3>
                                     <p className={styles.cardAbout}>{project.about}</p>
                                 </div>
+                                {/* 개폐 여부에 따른 화살표 아이콘 로테이션 애니메이션용 클래스 조건부 부여 */}
                                 <span className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ""}`}>
                                     ⌄
                                 </span>
                             </button>
  
+                            {/* 카드 바디 (isOpen 상태일 때만 조건부 렌더링) */}
                             {isOpen && (
                                 <div className={styles.cardBody}>
                                     {summaryLines.length > 0 && (
@@ -143,7 +142,7 @@ export default function ProjectList() {
                                         ) : (
                                             <span />
                                         )}
-                                        <span className={styles.metaValue}>{formatPeriod(project.date)}</span>
+                                        <span className={styles.metaValue}>{project.date}</span>
                                     </div>
                                 </div>
                             )}
