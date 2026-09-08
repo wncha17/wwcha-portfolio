@@ -104,9 +104,23 @@
 
 .levelBarFill {
     height: 100%;
-    background: #7c3aed;
     border-radius: 999px;
-    transition: width 0.2s ease;
+    transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+/* 난이도 1~2: 노랑 (기존 보라색과 채도를 맞춘 따뜻한 톤) */
+.levelLow {
+    background: #eab308;
+}
+ 
+/* 난이도 3~4: 주황 */
+.levelMid {
+    background: #f97316;
+}
+ 
+/* 난이도 5: 빨강 */
+.levelHigh {
+    background: #dc2626;
 }
 
 /* 문제 개수 (우측 하단 화살표 버튼과 겹치지 않도록 오른쪽 여백 확보) */

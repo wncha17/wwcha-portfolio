@@ -10,6 +10,14 @@ import styles from "./AlgorithmList.module.css"
 const MAX_STARS = 5;
 const MAX_LEVEL = 5;
 
+// 난이도(level) 값에 따라 게이지 바에 적용할 색상 클래스를 골라주는 함수
+// 1~2: 노랑, 3~4: 주황, 5: 빨강
+function getLevelColorClass(level: number): string {
+    if (level <= 2) return styles.levelLow;
+    if (level <= 4) return styles.levelMid;
+    return styles.levelHigh;
+}
+
 export default function AlgorithmList() {
     // 페이지 이동을 위한 React Router hook
     const navigate = useNavigate();
@@ -55,7 +63,8 @@ export default function AlgorithmList() {
                     // 데이터 가공 및 수치 정규화
                     const filledStars = Math.max(0, Math.min(MAX_STARS, algo.freq));
                     const levelPercent = Math.max(0, Math.min(100, (algo.level / MAX_LEVEL) * 100));
-                    
+                    const levelColorClass = getLevelColorClass(algo.level);
+
                     // Map에서 현재 알고리즘 타이틀에 해당하는 문제 개수 추출
                     const problemCount = problemCountByCategory.get(algo.title) ?? 0;
 
@@ -81,12 +90,12 @@ export default function AlgorithmList() {
                                 </div>
                             </div>
  
-                            {/* 난이도: 가로 게이지 바 */}
+                            {/* 난이도: 가로 게이지 바 (1~2 노랑 / 3~4 주황 / 5 빨강) */}
                             <div className={styles.statRow}>
                                 <span className={styles.statLabel}>난이도</span>
                                 <div className={styles.levelBar}>
                                     <div
-                                        className={styles.levelBarFill}
+                                        className={`${styles.levelBarFill} ${levelColorClass}`}
                                         style={{ width: `${levelPercent}%` }}
                                     />
                                 </div>

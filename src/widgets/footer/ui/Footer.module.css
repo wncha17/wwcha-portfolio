@@ -1,0 +1,16 @@
+/* Header의 border-bottom과 짝을 맞춘 border-top, 같은 색상(#e5e7eb) 사용 */
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    margin-top: 48px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.copyright {
+    margin: 0;
+    font-size: 13px;
+    color: #9ca3af;
+    text-align: center;
+}
